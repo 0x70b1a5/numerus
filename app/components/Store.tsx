@@ -58,7 +58,7 @@ const handleRemoveItem = (index) => {
         {items.filter(i => i.category === c).map((item, index) => <li key={index} className="flex flex-row self-stretch items-center justify-between rounded border border-gray-500 px-2 py-1 mx-2 my-1">
             <input className="cb scale-150 p-4 mr-4" type="checkbox" checked={item.checked} onChange={() => handleCheckItem(index)} />
 		<span>
-            {item.name} {item.description && '-'} {item.description} - {item.modifier} ({item.category})
+            {item.name} {item.description && '-'} {item.description} - {item.modifier}
 		</span>
 <button onClick={() => handleRemoveItem(index)} className="ml-2 px-2 py-1 bg-red-500 text-white rounded-md hover:bg-red-700 transition-all">x</button>
           </li>))}
