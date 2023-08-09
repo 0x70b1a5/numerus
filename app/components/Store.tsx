@@ -20,7 +20,10 @@ interface Modifier {
 }
 
 const Store = () => {
-  const li = localStorage.getItem('items')
+  let li: any = undefined
+  if (process.browser) {
+    li = localStorage.getItem('items')
+  }
   const [items, setItems] = useState<Modifier[]>(li ? JSON.parse(li) : []);
   const [name, setName] = useState('');
   const [category, setCategory] = useState(ModifierCategory.Attack);
