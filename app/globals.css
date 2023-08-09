@@ -19,14 +19,18 @@
 
 
 body {
-   @apply bg-gray-200
+   @apply bg-amber-100
 }
 
 textarea, input {
-	@apply rounded px-2 py-1 mx-2 my-1 active:bg-blue-500 focus:bg-blue-500 bg-blue-100
+	@apply rounded px-2 py-1 mx-2 my-1 active:bg-amber-800 focus:bg-amber-800 bg-amber-200 focus:text-gray-100 border border-solid border-gray-800
 }
 
 button {
 	@apply rounded px-2 py-1 mx-2 my-1 active:bg-blue-500 bg-blue-200
+}
+
+h1 {
+  @apply text-lg font-bold my-2
 }
 
