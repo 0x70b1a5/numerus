@@ -16,14 +16,13 @@
   }
 }
 
-
-
 body {
-   @apply bg-amber-100
+   @apply bg-amber-100 overflow-y-auto overflow-x-hidden h-screen w-screen
 }
 
-textarea, input {
-	@apply rounded px-2 py-1 mx-2 my-1 active:bg-amber-800 focus:bg-amber-800 bg-amber-200 focus:text-gray-100 border border-solid border-gray-800
+textarea, input[type="text"], input[type="number"] {
+  all: unset;
+	@apply rounded px-2 py-1 mx-2 my-1 border border-solid border-transparent bg-white/25 focus:bg-white
 }
 
 button {
@@ -31,6 +30,10 @@ button {
 }
 
 h1 {
-  @apply text-lg font-bold my-2
+  @apply text-lg font-bold text-center px-2 py-1 shadow-md mx-1
+}
+
+.boni h1 {
+  @apply rounded;
 }
 
