@@ -2,7 +2,7 @@
 import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
 import { v4 as uuid } from 'uuid'
-import { FaCheck, FaRegSquare, FaSquare } from 'react-icons/fa6';
+import { FaCheck, FaCircle, FaCircleCheck, FaRegCircle, FaRegSquare, FaSquare } from 'react-icons/fa6';
 import { FaCheckSquare } from 'react-icons/fa';
 
 enum ModifierCategory {
@@ -156,6 +156,7 @@ const Store = () => {
   };
 
   const handleRemoveItem = (index: number) => {
+    if (!confirm('Are you sure you want to remove this item?')) return;
     const updatedItems = [...items];
     updatedItems.splice(index, 1);
     setItems(updatedItems);
@@ -177,48 +178,48 @@ const Store = () => {
         <h1
           className={classNames('bg-red-700', { 'opacity-50': !atktotal })}
         >
-          ATK: {atktotal >= 0? '+' :'-'}{atktotal}
+          ATK: {atktotal >= 0? '+' :''}{atktotal}
         </h1>
         <h1
           className={classNames('bg-orange-700', { 'opacity-50': !dmgtotal })}
         >
-          DMG: {dmgtotal >= 0? '+' :'-'}{dmgtotal}
+          DMG: {dmgtotal >= 0? '+' :''}{dmgtotal}
         </h1>
         <h1
           className={classNames('bg-amber-700', { 'opacity-50': !deftotal })}
         >
-          AC: {deftotal >= 0? '+' :'-'}{deftotal}
+          AC: {deftotal >= 0? '+' :''}{deftotal}
         </h1>
         <h1
           className={classNames('bg-green-700', { 'opacity-50': !skilltotal })}
         >
-          SKL: {skilltotal >= 0? '+' :'-'}{skilltotal}
+          SKL: {skilltotal >= 0? '+' :''}{skilltotal}
         </h1>
         <h1
           className={classNames('bg-cyan-700', { 'opacity-50': !fortsavetotal })}
         >
-          FOR: {fortsavetotal >= 0? '+' :'-'}{fortsavetotal}
+          FOR: {fortsavetotal >= 0? '+' :''}{fortsavetotal}
         </h1>
         <h1
           className={classNames('bg-indigo-700', { 'opacity-50': !reflexsavetotal })}
         >
-          REF: {reflexsavetotal >= 0? '+' :'-'}{reflexsavetotal}
+          REF: {reflexsavetotal >= 0? '+' :''}{reflexsavetotal}
         </h1>
         <h1
           className={classNames('bg-blue-700', { 'opacity-50': !willsavetotal })}
         >
-          WIL: {willsavetotal >= 0? '+' :'-'}{willsavetotal}
+          WIL: {willsavetotal >= 0? '+' :''}{willsavetotal}
         </h1>
         <h1
           className={classNames('bg-violet-700', { 'opacity-50': !allsavetotal })}
         >
-          SAV: {allsavetotal >= 0? '+' :'-'}{allsavetotal}
+          SAV: {allsavetotal >= 0? '+' :''}{allsavetotal}
         </h1>
       </div>
       {hr}
       {items?.length > 0 ? <>
-        <h1>MODIFIERS:</h1>
-        <ul className='mx-2 my-1 self-stretch'>
+        <h1 className='bg-white/50'>MODIFIERS:</h1>
+        <ul className='gap-2 flex flex-col self-stretch'>
           {items.filter(Boolean).map((item, index) => <li key={index}
             className={classNames('flex flex-row shadow-md text-xs self-stretch items-center gap-2 rounded px-2 py-1')}
             style={{
@@ -239,19 +240,19 @@ const Store = () => {
               })`
             }}
           >
-            <button onClick={() => handleCheckItem(item.guid)} className='text-3xl p-0 m-0 bg-transparent border-none'>
-              {item.checked ? <FaCheckSquare /> : <FaRegSquare />}
+            <button onClick={() => handleCheckItem(item.guid)} className='text-3xl aspect-square bg-white rounded-full border-none'>
+              {item.checked ? <FaCircle /> : <FaRegCircle />}
             </button>
-            <div className='flex flex-col gap-1 grow'>
-              <span className='font-bold'>{item.name}</span>
-              {item.description && <span className='text-gray-600'>{item.description}</span>}
+            <div className='flex flex-col gap-1 mr-auto bg-white rounded-md p-2'>
+              <span className='font-bold text-lg'>{item.name}</span>
+              {item.description && <span className='text-gray-600 text-xs'>{item.description}</span>}
               {item.modifiers?.map((mod, i) => (
                 <span key={i} className='text-xs'>
                   {mod.modifier >= 0 ? '+' : ''}{mod.modifier} {ModifierCategory[mod.category]}
                 </span>
               ))}
             </div>
-            <button onClick={() => handleRemoveItem(index)} className='ml-2 px-2 py-1 bg-red-500 text-white text-xl rounded-md hover:bg-red-700 transition-all'>X</button>
+            <button onClick={() => handleRemoveItem(index)} className='px-2 py-1 bg-red-500 text-white text-xl rounded-md hover:bg-red-700 transition-all'>X</button>
           </li>)}
         </ul>
         {hr}
