@@ -2,8 +2,7 @@
 import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
 import { v4 as uuid } from 'uuid'
-import { FaCheck, FaCircle, FaCircleCheck, FaRegCircle, FaRegSquare, FaSquare } from 'react-icons/fa6';
-import { FaCheckSquare } from 'react-icons/fa';
+import { FaCircle, FaRegCircle } from 'react-icons/fa6';
 
 enum ModifierCategory {
   None,
@@ -163,103 +162,122 @@ const Store = () => {
     localStorage.setItem('items', JSON.stringify(updatedItems));
   }
 
-  const hr = <div className='p-0.5 self-stretch my-2 bg-gray-900' />
+  const hr = <div className='p-px self-stretch my-2 bg-gray-600' />
   const anyBonuses = atktotal || dmgtotal || deftotal || skilltotal || fortsavetotal || reflexsavetotal || willsavetotal || allsavetotal
 
+
+  const getCategoryColor = (cat: ModifierCategory) => {
+    switch(cat) {
+      case ModifierCategory.Attack: return '#dc2626';
+      case ModifierCategory.Damage: return '#ea580c';
+      case ModifierCategory.AC: return '#d97706';
+      case ModifierCategory.Skill: return '#16a34a';
+      case ModifierCategory.FortitudeSave: return '#0891b2';
+      case ModifierCategory.ReflexSave: return '#4f46e5';
+      case ModifierCategory.WillSave: return '#2563eb';
+      case ModifierCategory.AllSaves: return '#7c3aed';
+      default: return '#6b7280';
+    }
+  };
+
+
   return (
-    <div className='flex flex-col place-items-center gap-2 store max-w-lg' style={{ fontFamily: '\'Press Start 2P\', monospace' }}>
+    <div className='flex flex-col place-items-center gap-2 store max-w-lg' style={{ fontFamily: '\'WDXL Lubrifont TC\', monospace' }}>
       <h1
-        className='text-xl rounded-b-md bg-gradient-to-r from-red-500 via-blue-500 to-green-500 text-center text-gray-100 shadow-md self-stretch px-2 py-1 m-0 text-shadow-md'
+        className='text-xl rounded-b-md bg-gradient-to-r from-red-500 via-blue-500 to-green-500 text-center text-gray-100 shadow-md self-stretch px-2 py-1 m-0 text-shadow-md text-4xl'
         style={{ textShadow: '1px 1px 0px black' }}
       >
         NUMERUS
       </h1>
-      <div className='flex flex-wrap gap-2 text-white boni'>
+      <div className='self-stretch grid grid-cols-3 md:grid-cols-4 items-stretch gap-1 text-white boni mx-2'>
         <h1
-          className={classNames('bg-red-700', { 'opacity-50': !atktotal })}
+          className={classNames('bg-red-700', { 'opacity-25': !atktotal })}
         >
           ATK: {atktotal >= 0? '+' :''}{atktotal}
         </h1>
         <h1
-          className={classNames('bg-orange-700', { 'opacity-50': !dmgtotal })}
+          className={classNames('bg-orange-700', { 'opacity-25': !dmgtotal })}
         >
           DMG: {dmgtotal >= 0? '+' :''}{dmgtotal}
         </h1>
         <h1
-          className={classNames('bg-amber-700', { 'opacity-50': !deftotal })}
+          className={classNames('bg-amber-700', { 'opacity-25': !deftotal })}
         >
           AC: {deftotal >= 0? '+' :''}{deftotal}
         </h1>
         <h1
-          className={classNames('bg-green-700', { 'opacity-50': !skilltotal })}
+          className={classNames('bg-green-700', { 'opacity-25': !skilltotal })}
         >
           SKL: {skilltotal >= 0? '+' :''}{skilltotal}
         </h1>
         <h1
-          className={classNames('bg-cyan-700', { 'opacity-50': !fortsavetotal })}
+          className={classNames('bg-cyan-700', { 'opacity-25': !fortsavetotal })}
         >
           FOR: {fortsavetotal >= 0? '+' :''}{fortsavetotal}
         </h1>
         <h1
-          className={classNames('bg-indigo-700', { 'opacity-50': !reflexsavetotal })}
+          className={classNames('bg-indigo-700', { 'opacity-25': !reflexsavetotal })}
         >
           REF: {reflexsavetotal >= 0? '+' :''}{reflexsavetotal}
         </h1>
         <h1
-          className={classNames('bg-blue-700', { 'opacity-50': !willsavetotal })}
+          className={classNames('bg-blue-700', { 'opacity-25': !willsavetotal })}
         >
           WIL: {willsavetotal >= 0? '+' :''}{willsavetotal}
         </h1>
         <h1
-          className={classNames('bg-violet-700', { 'opacity-50': !allsavetotal })}
+          className={classNames('bg-violet-700', { 'opacity-25': !allsavetotal })}
         >
           SAV: {allsavetotal >= 0? '+' :''}{allsavetotal}
         </h1>
       </div>
       {hr}
       {items?.length > 0 ? <>
-        <h1 className='bg-white/50'>MODIFIERS:</h1>
+        <div className='text-2xl font-bold'>MODIFIERS:</div>
         <ul className='gap-2 flex flex-col self-stretch'>
-          {items.filter(Boolean).map((item, index) => <li key={index}
-            className={classNames('flex flex-row shadow-md text-xs self-stretch items-center gap-2 rounded px-2 py-1')}
-            style={{
-              background: `linear-gradient(45deg, ${
-                item.categories?.map(cat => {
-                  switch(cat) {
-                    case ModifierCategory.Attack: return 'red';
-                    case ModifierCategory.Damage: return 'orange';
-                    case ModifierCategory.AC: return 'yellow';
-                    case ModifierCategory.Skill: return 'green';
-                    case ModifierCategory.FortitudeSave: return 'cyan';
-                    case ModifierCategory.ReflexSave: return 'indigo';
-                    case ModifierCategory.WillSave: return 'blue';
-                    case ModifierCategory.AllSaves: return 'violet';
-                    default: return '#e5e7eb';
-                  }
-                }).filter(Boolean).join(', ')
-              })`
-            }}
-          >
-            <button onClick={() => handleCheckItem(item.guid)} className='text-3xl aspect-square bg-white rounded-full border-none'>
-              {item.checked ? <FaCircle /> : <FaRegCircle />}
-            </button>
-            <div className='flex flex-col gap-1 mr-auto bg-white rounded-md p-2'>
-              <span className='font-bold text-lg'>{item.name}</span>
-              {item.description && <span className='text-gray-600 text-xs'>{item.description}</span>}
-              {item.modifiers?.map((mod, i) => (
-                <span key={i} className='text-xs'>
-                  {mod.modifier >= 0 ? '+' : ''}{mod.modifier} {ModifierCategory[mod.category]}
-                </span>
-              ))}
-            </div>
-            <button onClick={() => handleRemoveItem(index)} className='px-2 py-1 bg-red-500 text-white text-xl rounded-md hover:bg-red-700 transition-all'>X</button>
-          </li>)}
-        </ul>
+           {items.filter(Boolean).map((item, index) => {
+             const categoryColors = item.categories?.map(getCategoryColor).filter(Boolean) || [];
+             const totalCategories = categoryColors.length;
+
+             return <li key={index}
+             className={classNames('flex flex-col shadow-md self-stretch rounded overflow-hidden bg-white')}
+           >
+             <div className='flex flex-row items-center gap-2 px-2 py-1'>
+               <button onClick={() => handleCheckItem(item.guid)} className='text-3xl aspect-square bg-white rounded-full border-none'>
+                 {item.checked ? <FaCircle /> : <FaRegCircle />}
+               </button>
+               <div className='flex flex-col mr-auto bg-white rounded-md p-2 gap-1'>
+                 <span className='font-bold text-xl leading-tight'>{item.name}</span>
+                 {item.description && <span className='text-gray-600'>{item.description}</span>}
+                 <div className="flex flex-wrap gap-1">
+                 {item.modifiers?.map((mod, i) => (
+                   <span key={i} style={{ backgroundColor: getCategoryColor(mod.category) + '40' }} className='rounded-full px-2'>
+                     {mod.modifier >= 0 ? '+' : ''}{mod.modifier} {ModifierCategory[mod.category]}
+                   </span>
+                 ))}
+                 </div>
+               </div>
+               <button onClick={() => handleRemoveItem(index)} className='text-red-500 text-3xl bg-transparent p-0'>X</button>
+             </div>
+             <div className='flex h-1' style={{ height: '0.25rem' }}>
+               {categoryColors.map((color, i) => (
+                 <div
+                   key={i}
+                   style={{
+                     backgroundColor: color,
+                     width: `${100 / totalCategories}%`
+                   }}
+                 />
+               ))}
+             </div>
+           </li>
+           })}
+         </ul>
         {hr}
       </> : null}
-      <h1>ADD NEW:</h1>
-      <input className='self-stretch' type='text' value={name} onChange={e => setName(e.target.value)} placeholder='Name' />
-      <textarea className='self-stretch' value={description} onChange={e => setDescription(e.target.value)} placeholder='Description' />
+      <div className='text-2xl font-bold'>ADD NEW:</div>
+      <input className='!self-stretch' type='text' value={name} onChange={e => setName(e.target.value)} placeholder='Name' />
+      <textarea className='!self-stretch' value={description} onChange={e => setDescription(e.target.value)} placeholder='Description' />
       <div className='grid grid-cols-2 md:grid-cols-3 gap-2 self-stretch mx-2 my-2'>
         {Object.entries(ModifierCategory)
           .filter(([key]) => isNaN(Number(key)) && key !== 'None')
@@ -277,12 +295,12 @@ const Store = () => {
                 'bg-gray-100': value === ModifierCategory.AllSaves,
               }
             )}>
-              <label className='text-xs font-bold'>{key}</label>
+              <label className='font-bold'>{key}</label>
               <input
                 type='number'
                 value={categoryModifiers[value as ModifierCategory]}
                 onChange={e => handleCategoryModifierChange(value as ModifierCategory, e.target.value)}
-                className='px-2 py-1 rounded border border-gray-300'
+                className='px-2 rounded border border-gray-300'
                 placeholder='0'
               />
             </div>

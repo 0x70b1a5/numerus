@@ -30,7 +30,7 @@ button {
 }
 
 h1 {
-  @apply text-lg font-bold text-center px-2 py-1 shadow-md mx-1
+  @apply text-3xl font-bold text-center px-2 py-1 shadow-md
 }
 
 .boni h1 {
